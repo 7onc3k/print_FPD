@@ -1,0 +1,236 @@
+--- Path: d:\Projekty\tisk\tisk\src\views\Account.vue ---
+
+<script>
+import { ref, inject, onMounted } from "vue";
+import Login from "../components/Login.vue";
+import Register from "../components/Register.vue";
+import Profile from "../components/Profile.vue";
+
+export default {
+  components: {
+    Login,
+    Register,
+    Profile,
+  },
+  setup() {
+    const isLoggedIn = ref(false);
+    const user = ref(null);
+    const supabase = inject("supabase");
+
+    onMounted(async () => {
+      const { data: session } = await supabase.auth.getSession();
+      if (session && session.user) {
+        isLoggedIn.value = true;
+        user.value = session.user;
+      } else {
+        isLoggedIn.value = false;
+      }
+      console.log("On mounted - Is logged in:", isLoggedIn.value);
+    });
+
+    // Poslech změn stavu autentizace
+    supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth state changed:", { event, session });
+
+      if (event === "SIGNED_IN" && session && session.user) {
+        isLoggedIn.value = true;
+        user.value = session.user;
+      } else {
+        isLoggedIn.value = false;
+        user.value = null;
+      }
+    });
+
+    const handleLogout = () => {
+      isLoggedIn.value = false;
+      user.value = null;
+    };
+
+    // Společná funkce pro ošetření stavu po přihlášení nebo registraci
+    const handleLoginStatus = (status) => {
+      isLoggedIn.value = status;
+    };
+
+    return {
+      isLoggedIn,
+      user,
+      handleLogout,
+    };
+  },
+};
+</script>
+
+
+--- Path: d:\Projekty\tisk\tisk\src\main.js ---
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import { supabase } from './supabaseClient'  // Importujte supabase z supabaseClient.js
+
+const app = createApp(App)
+app.provide('supabase', supabase)
+app.use(router)
+app.mount('#app')
+
+
+--- Path: d:\Projekty\tisk\tisk\src\router.js ---
+import { createRouter, createWebHistory } from 'vue-router';
+import Designer from './views/Designer.vue';
+import Account from './views/Account.vue';
+import { supabase } from './supabaseClient';
+
+const routes = [
+  { path: '/', redirect: '/account' },
+  { path: '/designer', component: Designer }, // Odebráno meta: { requiresAuth: true }
+  { path: '/account', component: Account }
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+});
+
+// Upraveno: Odebrána kontrola auth pro Designer zde
+router.beforeEach((to, from, next) => {
+  next();
+});
+
+export default router;
+
+--- Path: d:\Projekty\tisk\tisk\src\App.vue ---
+<script>
+import Navbar from './components/Navbar.vue';
+
+export default {
+  components: {
+    Navbar
+  }
+}
+</script>
+
+--- Path: d:\Projekty\tisk\tisk\src\components\Profile.vue ---
+  <!-- Profile.vue -->
+<script>
+import { inject, getCurrentInstance } from "vue";
+import { useRouter } from 'vue-router';
+
+export default {
+  props: {
+    user: Object,
+  },
+  setup(props, { emit }) {
+    const supabase = inject("supabase");
+    const router = useRouter();
+    const logout = async () => {
+      const { error } = await supabase.auth.signOut();
+      console.log("Logging out:", { error });
+      if (!error) {
+        emit('loggedOut');  // Informujeme nadřazený komponent o odhlášení
+        router.push("/account");
+      } else {
+        console.error("Error during logout:", error);
+      }
+    };
+    return { logout };
+  },
+};
+</script>
+--- Path: d:\Projekty\tisk\tisk\src\components\Register.vue ---
+<script>
+import { ref, inject, getCurrentInstance } from 'vue';
+
+export default {
+  name: 'Register',
+  setup(props, { emit }) {
+    const email = ref('');
+    const password = ref('');
+    const errorMessage = ref('');
+
+    const supabase = inject('supabase');  // Získáváme instanci Supabase z hlavního souboru
+
+    const register = async () => {
+      const { data, error } = await supabase.auth.signUp({
+        email: email.value,
+        password: password.value,
+      });
+
+      if (error) {
+        errorMessage.value = error.message;
+      } else {
+        console.log('Registrováno:', data);
+        emit('registered', true);  // Vysíláme událost po úspěšné registraci
+      }
+    };
+
+    return {
+      email,
+      password,
+      errorMessage,
+      register
+    };
+  }
+}
+</script>
+--- Path: d:\Projekty\tisk\tisk\src\components\Login.vue ---
+
+<script>
+import { ref, inject, getCurrentInstance } from "vue";
+
+export default {
+  name: "Login",
+  setup(props, { emit }) {
+    const email = ref("");
+    const password = ref("");
+    const errorMessage = ref("");
+
+    const supabase = inject("supabase"); // Získáváme instanci Supabase z hlavního souboru
+
+    const login = async () => {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.value,
+        password: password.value,
+      });
+
+      if (error) {
+        errorMessage.value = error.message;
+      } else {
+        console.log("Přihlášen:", data);
+        emit("loggedIn", true); // Vysíláme událost po úspěšném přihlášení
+      }
+    };
+
+    return {
+      email,
+      password,
+      errorMessage,
+      login,
+    };
+  },
+};
+</script>
+--- Path: d:\Projekty\tisk\tisk\src\views\Designer.vue ---
+<!-- Designer.vue -->
+<script>
+import { ref, inject, onMounted } from "vue";
+import FancyDesigner from "../components/ProductDesigner.vue";
+export default {
+  components: {
+    FancyDesigner,
+  },
+  setup() {
+    const isLoggedIn = ref(false);
+    const supabase = inject("supabase");
+
+    onMounted(async () => {
+      const { data: session } = await supabase.auth.getSession();
+      isLoggedIn.value = session && session.user ? true : false;
+    });
+
+    return {
+      isLoggedIn,
+    };
+  },
+};
+</script>
+
+

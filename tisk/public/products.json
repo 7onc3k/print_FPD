@@ -1,0 +1,86 @@
+[
+    {
+        "category": "First Category Title",
+        "products": [
+            [
+                {
+                    "productTitle": "First Product Title",
+                    "productThumbnail": "product_thumbnail.png",
+                    "title": "First View Title",
+                    "thumbnail": "view_thumbnail.png",
+                    "options": {},
+                    "mask": {},
+                    "elements": [
+                        {
+                            "type": "image",
+                            "source": "blackTee.jpg",
+                            "title": "Element Image Title",
+                            "parameters": {}
+                        },
+                        {
+                            "type": "text",
+                            "source": "Initial Text Content",
+                            "title": "Element Text Title",
+                            "parameters": {}
+                        }
+                    ]
+                },
+                {
+                    "title": "Second View Title",
+                    "thumbnail": "view_thumbnail",
+                    "elements": []
+                }
+            ],
+            [
+                {
+                    "productTitle": "Second Product Title",
+                    "title": "First View Title",
+                    "thumbnail": "view_thumbnail.png",
+                    "elements": []
+                }
+            ]
+        ]
+    },
+    {
+        "category": "Second Category Title",
+        "products": [
+            [
+                {
+                    "productTitle": "First Product Title",
+                    "productThumbnail": "product_thumbnail.png",
+                    "title": "First View Title",
+                    "thumbnail": "view_thumbnail.png",
+                    "options": {},
+                    "mask": {},
+                    "elements": [
+                        {
+                            "type": "image",
+                            "source": "whiteTee.jpg",
+                            "title": "Element Image Title",
+                            "parameters": {}
+                        },
+                        {
+                            "type": "text",
+                            "source": "Initial Text Content",
+                            "title": "Element Text Title",
+                            "parameters": {}
+                        }
+                    ]
+                },
+                {
+                    "title": "Second View Title",
+                    "thumbnail": "view_thumbnail",
+                    "elements": []
+                }
+            ],
+            [
+                {
+                    "productTitle": "Second Product Title",
+                    "title": "First View Title",
+                    "thumbnail": "view_thumbnail.png",
+                    "elements": []
+                }
+            ]
+        ]
+    }
+]

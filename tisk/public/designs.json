@@ -1,0 +1,46 @@
+[
+    {
+        "title": "Category Title",
+        "thumbnail": "catgory_thumbnail.png",
+        "designs": [
+            {
+                "source": "design.png",
+                "title": "Design Title",
+                "parameters": {}
+            },
+            {
+                "source": "design.png",
+                "title": "Design Title",
+                "parameters": {}
+            }
+        ]
+    },
+    {
+        "title": "Primary Category Title",
+        "thumbnail": "catgory_thumbnail.png",
+        "category": [
+            {
+                "title": "Sub-Category Title",
+                "thumbnail": "catgory_thumbnail.png",
+                "category": [
+                    {
+                        "title": "Sub-Category Title",
+                        "thumbnail": "catgory_thumbnail.png",
+                        "designs": [
+                            {
+                                "source": "design.png",
+                                "title": "Design Title",
+                                "parameters": {}
+                            },
+                            {
+                                "source": "design.png",
+                                "title": "Design Title",
+                                "parameters": {}
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
