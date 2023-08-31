@@ -1,0 +1,1329 @@
+8/16/23, 5:37 PM Getting Started with fpd-js (Developer) : Fancy Product Designer
+
+Getting Started with fpd-js (Developer)
+Modified on Thu, 27 Jul 2023 at 12:26 PM
+
+Please check out the JSDoc that documents all available options and methods.
+
+Requirements
+
+¢ If developing locally, you need to run the example index.html with a local web server like Mamp or Xampp.
+e You need coding knowledge in jQuery, HTML, CSS and (PHP).
+
+Include JS/CSS files
+
+Include necessary files in your HTML document
+
+First of all include all necessary files in the head part of your HTML document.
+
+1 <link rel="stylesheet" type="text/css" href="css/FancyProductDesigner.min.cs: HTML
+2 />
+3 <script src="js/fabric-5.3.1.min.js" type="text/javascript"></script>
+
+<script src="js/FancyProductDesigner.min.js" type="text/javascript"></script>
+
+Setting up products & designs
+
+ 
+
+When you init the FancyProductDesigner plugin, you can easily pass the URLs of the products and design JSON files or
+directly the JSON objects in the plugin options (see productsJSON and designsJSON options).
+
+Products
+
+To understand the required JSON scheme for products, please open this file. (It's not a valid JSON, because it includes
+comments for explaining the different keys and values).
+
+Designs
+
+To understand the required JSON scheme for designs, please open this file. (It's not a valid JSON, because it includes
+comments for explaining the different keys and values).
+
+You can find more JSON examples in the example/json folder of the downloaded archive!
+
+Call the Plugin
+
+Now you can call the plugin with the main div id="fpd" as selector in a javascript block. You also need to bind a data
+
+string to the plugin, because its a object-oriented plugin.
+
+1 const appOptions = {}; JavaScript
+2
+
+3 const fpd = new FancyProductDesigner (
+
+4 document .getElementById('fpd-target'),
+
+5
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000581438-getting-started-with-fpd-js-developer- 1/2
+8/16/23, 5:37 PM Getting Started with fpd-js (Developer) : Fancy Product Designer
+6 appOptions
+)i
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000581438-getting-started-with-fpd-js-developer- 2/2
+
+
+8/16/23, 5:39 PM Using API methods and events : Fancy Product Designer
+
+Using API methods and events
+Modified on Thu, 27 Jul 2023 at 12:35 PM
+
+The official API documentation can be found here.
+
+The main entry point to use the API is the FancyProductDesigner class:
+
+1 var fpd = new FancyProductDesigner (document .getElementById('fpd-target')); JavaScript
+
+The fpd variable will give you access to all methods and properties of the FancyProductDesigner class.
+
+For example if you want to access the current showing view:
+
+1 fpd.currentViewInstance JavaScript
+
+This will return an object of FancyProductDesignerView
+
+Accessing all view instances:
+
+1 fpd.viewInstances JavaScript
+2 //returns an array
+
+Methods
+
+In order to use the methods of e.g. the FancyProductDesigner class, you need to wait until the designer is ready to receive
+these methods. You can not use e.g. the loadProduct method during the loading process when the designer is loading the
+HTML from the templates.
+
+In order to be sure you can use the methods, please wait until the ready event is executed:
+
+1 fpd.addEventListener('ready',() => { JavaScript
+2
+3 //use api methods in here
+4 fpd.loadProduct(...)
+5
+6 })
+Events
+
+The FancyProducDesigner and FancyProductDesignerView class has numerous events.
+
+Example using events of FancyProducDesigner:
+
+1 fpd.addEventListener('productCreate',(evt) => { JavaScript
+2
+3 3)
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000074839-using-api-methods-and-events a1
+
+
+8/16/23, 5:39 PM Using own fonts for the fonts dropdown : Fancy Product Designer
+
+Using own fonts for the fonts dropdown
+Modified on Thu, 27 Jul 2023 at 12:31 PM
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000585888-using-own-fonts-for-the-fonts-dropdown 1/2
+8/16/23, 5:39 PM Using own fonts for the fonts dropdown : Fancy Product Designer
+
+You can set up the available fonts, that your customers can choose from, via the fonts option.
+
+Custom Fonts
+
+You can easily register custom TrueType fonts (ttf).
+Move your ttf files in a fonts folder.
+— wa npn
+
+ 
+
+ 
+
+BS css
+fonts
+5 htm!
+1 images
+Bis
+BS lang
+BS php
+© index.html
+© plus.html
+
+8) Pacifico.ttf
+
+vvrvevye
+
+Set the name and URL of the font in the fonts option:
+
+1 new FancyProductDesigner (document .getElementById('fpd-target') { JavaScript
+2 fonts: [{name: "Pacifico", url: "http://yourdomain.com/fonts/Pacifico.ttf"}]
+
+3 3);
+
+4
+
+To test if the font is available, just enter the URL in a browser. If the URL is correct, the download window will display.
+
+Google Fonts
+
+If you want to use fonts from Google Fonts, you only need to enter the font name in the name property and set the url to
+google’, so the plugins knows that it has to load the from google fonts server.
+
+1 new FancyProductDesigner (document .getElementById('fpd-target'), { JavaScript
+2 fonts: [
+
+3 {name: "Pacifico", url: "http://yourdomain.com/fonts/Pacifico.ttf"},
+
+4 {name: "Lobster", url: "google"}
+
+5 ]
+
+6 });
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000585888-using-own-fonts-for-the-fonts-dropdown 2/2
+
+
+8/16/23, 5:39 PM Managing the Action buttons : Fancy Product Designer
+
+Managing the Action buttons
+Modified on Thu, 27 Jul 2023 at 12:31 PM
+
+Action buttons are displaying in the product stage and can be individually in different positions.
+
+1
+
+out WN
+
+var pluginOpts = factions: {
+"left': ['download','print', 'snap', 'preview-lightbox'],
+'right': ['zoom', 'reset-product'],
+'center': ['undo','redo'],
+
+JavaScript
+
+3);
+var fpd = new FancyProductDesigner (document .getElementById('fpd-target'),
+pluginOpts) ;
+
+ 
+
+Available Actions
+
+ 
+
+download Allows to download the product as PNG, JPEG or PDF.
+
+ 
+
+print
+
+Prints the product.
+
+ 
+
+snap
+
+While dragging an element, it will snap to helper lines.
+
+ 
+
+preview-lightbox View the product in a lightbox.
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+zoom Zoom via a slider.
+
+reset-product Resets all elements in the product to origin parameters.
+
+undo Undo
+
+redo Redo
+
+info Displays a custom message in a modal. The text can be set via the language JSON.
+load Loads a product from the saved products in the browser.
+
+ 
+
+ 
+
+ 
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000006289-managing-the-action-buttons
+
+a.
+
+
+8/16/23, 5:38 PM Element Parameters : Fancy Product Designer
+
+Element Parameters
+Modified on Thu, 27 Jul 2023 at 12:27 PM
+
+With element parameters you control the behavior and properties of an element, e.g. if it can be dragged or the
+
+ 
+
+position on the stage. These can be set for a group of elements or for every element separately.
+
+Where can | set these parameters?
+
+1. Change the default parameters via the plugin call
+
+The first level to change all default parameters are the plugin options. There you will find 4 options to change the common,
+text, custom image and custom text parametes:
+
+1 new FancyProductDesigner (document .getElementById('fpd-target'), JavaScript
+elementParameters: {draggable: true},
+textParameters: {textSize: 16},
+customImagesParameters: {minwW: 1000, minH: 2000},
+customTextParameters: {removable: true}
+
+});
+
+oar WN
+
+2. Parameters object for products and designs
+
+As mentioned in the Getting Started guide you set up your products and designs via a JSON file. Here you have all of your
+initial elements defined and in the parameters object you can define individual properties for single elements.
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000581486-element-parameters a1
+
+
+8/16/23, 5:38 PM
+
+Customizing the Ul&Layout : Fancy Product Designer
+
+Customizing the UI&Layout
+Modified on Thu, 27 Jul 2023 at 12:30 PM
+
+Most of the layout options can be easily set via CSS classes that you need to add the product designer element which is
+used in new FancyProductDesigner().
+
+You can use the Ul&Layout Composer on the official fancyproductdesigner.com website to generate some "Get-
+
+Started" code.
+
+CSS Classes
+CSS Classes - Main
+
+These CSS classes can be used with the product designer container element.
+
+ 
+
+fpd-topbar
+
+Main navigation will be displayed in a top bar.
+
+ 
+
+fpd-sidebar
+
+Main navigation will be displayed in a left sidebar.
+
+ 
+
+fpd-off-canvas
+
+Main navigation will be displayed in a off-canvas sidebar.
+
+ 
+
+fpd-shadow-{1-9}
+
+Set a shadow. Choose between nine different shadow types, e.g. fpd-shadow-2
+
+ 
+
+ 
+
+fpd-views-inside-{right, left}
+
+ 
+
+Choose between four different inside position for the view selection.
+
+ 
+
+ 
+
+Example
+
+1 <div id="fpd" class="fpd-sidebar fpd-shadow-2 fpd-views-inside-left"></div> Null
+
+2
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000006281-customizing-the-ui-layout
+
+a.
+
+
+8/16/23, 8:09 PM Defining Bounding Boxes : Fancy Product Designer
+
+Defining Bounding Boxes
+Modified on Sat, 23 Nov 2019 at 10:27 AM
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000069624-defining-bounding-boxes 1/2
+8/16/23, 8:09 PM
+
+ 
+
+box to multiple elements.
+
+How to define a bounding box
+
+The bounding box property accepts 3 different values.
+
+Defining Bounding Boxes : Fancy Product Designer
+
+You can define bounding boxes for every element separately or in the plugin options which will apply the bounding
+
+ 
+
+Value
+
+Explanation
+
+ 
+
+Boolean: false
+
+Default value. No bounding box.
+
+ 
+
+Object: {width: 100, height: 200, y: 20: x: 50}
+
+An object defining a custom bounding box by setting size
+and position of the bounding box.
+
+ 
+
+String: "ANOTHER_ELEMENT_TITLE"
+
+ 
+
+ 
+
+The title of another element in the same view. This size and
+position of this element will be used as bounding box.
+
+ 
+
+ 
+
+Bounding Box Mode
+
+With the property boundingBoxMode you can define how the element is behaving when the element hits the boundaries.
+
+Currently there are 4 different modes:
+
+Value (string)
+
+Explanation
+
+ 
+
+inside (default)
+
+As soon as the element is moved outside of the bounding
+box, a message will display to let the user know, that the
+element needs to be moved into the bounding box. If an
+element is outside of the bounding box and the methods
+getProduct() or getOrder() are called, an alert message will
+be displayed.
+
+ 
+
+The element will be clipped into the bounding box.
+
+ 
+
+ 
+
+ 
+
+clipping
+oe . The element can only be transformed inside the bounding
+limitModify box
+
+The bounding box is visible, but the element can be moved
+none
+
+outside of the bounding box without any limitation.
+
+ 
+
+ 
+
+ 
+
+Scale Mode (only images)
+
+The scaleMode property will define how an image element is scaled into the bounding box.
+
+e fit: The image is scaled to fit inside the bounding box. The whole image is visible.
+e cover: The image is scaled to cover the whole bounding box.
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000069624-defining-bounding-boxes
+
+2/2
+
+
+8/16/23, 8:10 PM Creating an Upload Zone : Fancy Product Designer
+
+Creating an Upload Zone
+Modified on Tue, 03 Dec 2019 at 10:45 AM
+
+An Upload Zone is a rectangular area that allows to add a custom element (image or text) into it. An Upload Zone can only store on element at the same time.
+
+Creating an Uplod Zone is quite easy, you can use any image (PNG or JPEG) which is the placeholder image. When an user clicks on this image, the "Add Element" dialog will be shown and
+here the user can select an element. You can activate an image element as Upload Zone with the uploadZone property.
+
+{top: 100, aScript
+left: 50,
+
+uploadZone: true, //enable upload zone
+
+uploadZoneMovable: false //can upload zone be moved
+
+}
+
+ORONE
+
+You can even decide what kind of elements can be added into the Upload Zone by using the customAdds property:
+1 { aScript
+2  uploadZone: true,
+3  customAdds: {
+4 designs: false, //designs module is disabled
+5 texts: true, //only text module is allowed
+6 uploads: false //no image uploads
+7 }
+8 }
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000070317-creating-an-upload-zone a1
+
+
+8/16/23, 8:09 PM Adding patterns for text and SVG elements : Fancy Product Designer
+
+Adding patterns for text and SVG elements
+Modified on Tue, 03 Dec 2019 at 10:35 AM
+
+Patterns can only be used with SVG images or text elements.
+
+Store patterns in folder
+
+First of all you need to upload the png or jpeg files that you would like to use as patterns, to the patterns directory or to
+your desired directory.
+
+Enabling patterns
+
+You can define different patterns to every text or SVG image separately. For that you can enable an array of URLs to
+pattern image in the patterns property.
+
+1 //Example element object JavaScript
+2 {
+
+3 "type": "image",
+
+4 "source": "Image.svg",
+
+5 "title": "SVG Image",
+
+6 "parameters": {
+
+7 "colors": "#000, #f ff, #990000, #83635c",
+
+8 "top": 300,
+
+9 "left": 450,
+
+10 "patterns": ["patterns/pattern_1.png", "patterns/pattern_2.png"]
+41 }
+
+12}
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000585993-adding-patterns-for-text-and-svg-elements- a1
+
+
+8/16/23, 8:14 PM [Pricing Rule] Setting up pricing rules : Fancy Product Designer
+
+[Pricing Rule] Setting up pricing rules
+Modified on Thu, 27 Jul 2023 at 12:45 PM
+
+To generate the pricing rules for your product designer, we offer a handy online tool that will create the JS code that you
+can easily copy & paste into your website. Just go to http://fancyproductdesigner.com/addon-pricing-rules/ and scroll
+
+down to "Create Pricing Rules".
+
+Here you can define own pricing groups and in every pricing group you can set the pricing rules for various element
+properties. When you are done, click on the "GET JS CODE" button and copy the pricingRules property that you need to
+merge with the other plugin options that you are using for the FancyProductDesigner class (See Call the plugin section).
+
+Demo
+
+Create Pricing Rules
+
+Text Length
+©
+
+View(s) Element(s)
+All 2 | Alltexts
+
+DANY of the rules. ALL of the rules
+lessthan 10 = 10 o= x
+lessthan © 20 2 20 2 = x
+Greaterthan $20 2 30 i= x
+
+rer
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000036188--pricing-rule-setting-up-pricing-rules a1
+
+
+8/16/23, 8:13 PM How to store a product in a mysql database and load it from the same database? : Fancy Product Designer
+
+How to store a product in a mysql database and load it from the
+same database?
+Modified on Wed, 08 Feb 2017 at 04:21 PM
+
+In this article | am going to explain how you can store a customized product in a mysql database and load it from the
+
+same database.
+
+Step 1:
+
+First of all create a mysql structure like that:
+
+# Name Typ Kollation Attribute Null Standard Extra
+
+1 ID bigint(20) UNSIGNED Nein _ kein(e) AUTO_INCREMENT
+2 views longtext utf8_general_ci Nein  kein(e)
+
+Step 2:
+
+You also need a PHP script which is storing and loading a product in the database. | will send an action via POST to this
+script, that tells the script what kind of action (store or load) should be executed.
+product_in_db.php
+
+1 <?php
+
+2 if(!isset($_POST['action']))
+
+3 die("No action set!");
+
+4
+
+5 $db_host = 'localhost'; //database host
+6 $db_user = 'root';//database username
+7 $db_pwd = 'root';//database password
+
+8 $db_database = 'fpd'; //database name
+9
+
+10 //connect to database
+
+11 $connection = mysql_connect($db_host, $db_user, $db_pwd) or die('Connection
+
+failed to mysql database. Check the database host, username and password.');
+12 //select database
+13 ~mysql_select_db($db_database) or die("Database could not be selected.");
+
+14
+
+15 //store product
+
+16 if($_POST['action'] == 'store') {
+
+17 //get product views
+
+18 $views = $_POST['views'];
+
+19 //insert views in database table
+
+20 $sql = "INSERT INTO products (views) VALUES('$views')";
+21 $result = mysql_query($sql) or die('Product could not be stored.');
+22
+
+23 if($result) {
+
+24 //get ID of insert product and echo it as json
+
+25 $id = mysql_insert_id();
+
+26 header('Content-Type: application/json');
+
+27
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000593432-how-to-store-a-product-in-a-mysql-database-and-load-it-from-the-sa... U3
+8/16/23, 8:13 PM
+
+ 
+
+How to store a product in a mysql database and load it from the same database? : Fancy Product Designer
+
+ 
+
+ 
+
+28 echo json_encode($id) ;
+29 t
+30 t
+31 //load product
+32 else if($_POST['action'] == 'load') {
+33 //get product ID
+34 $id = $_POST['id'];
+35 //select product by ID
+36 $sql = "SELECT views FROM products WHERE ID=$id";
+37 $query = mysql_query($sql) or die('Product could not be selected.');
+38 //get the product views
+39 $result = mysql_result($query,0,"views") ;
+40 //echo result as json
+41 header('Content-Type: application/json');
+42 echo json_encode(stripslashes($result));
+43 it
+44
+45  mysql_close();
+46
+2>
+Step 3:
+lam using AJAX to call the action handlers for storing or loading a product. | also create 2 buttons for that action and give
+them unique ID’s to use them in jQuery.
+My buttons
+
+Store product in database Load product from database
+
+ 
+
+ 
+
+scripts.js
+1 //click handler for #store-product-db JavaScript
+2 $('#store-product-db').click(function() {
+3 //Send data (action and product views) to PHP script
+4 $.post("php/product_in_db.php", { action: 'store', views:
+JSON. stringify(productDesigner.getProduct()) }, function(data) {
+5 //check for errors
+6 if(parseInt(data) > 0) {
+7 //successfully added
+8 alert('Product with ID 'tdatat+' stored!');
+9 }
+10 else {
+14 alert('Error: '+data+'');
+12 }
+13 });
+14 (3);
+
+ 
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000593432-how-to-store-a-product-in-a-mysql-database-and-load-it-from-the-sa...
+
+ 
+
+2/3
+8/16/23, 8:13 PM How to store a product in a mysql database and load it from the same database? : Fancy Product Designer
+
+190
+16 //click handler for #load-product-db
+V7  $(#load-product-db').click(function() {
+18 //Send data (action and id) to PHP script, in this case I am loading a
+19 product with ID 17
+x $.post("php/product_in_db.php", { action: 'load', id: 17 }, function(data)
+22 t
+productDesigner. loadProduct (JSON. parse(data) );
+3);
+3);
+
+So whats happening in this Javascript snippet?
+It contains 2 click handlers, the first is storing a new product in the database. | am using the getProductDataURL( )
+
+method to get the data url of the product and stringify it with JSON. stringify() to create a database-friendly string.
+This product string together with the action ,store“ will be sent to the product_in_db. php script, that contains the PHP
+script we created in the second step.
+
+The other click handler is loading a product from the database by an ID. In my example | just set that ID manually in the
+code. In the callback function of the post call, you have access to product (views) which is still stringified. You transform it
+back into an Javascript array with JSON. parse(). Now you have a product array for the product designer, which can be
+
+added to the designer via the loadProduct() method. You can also use the addProduct() method to add it only to the
+products sidebar.
+
+https://support.fancyproductdesigner.com/support/solutions/articles/5000593432-how-to-store-a-product-in-a-mysql-database-and-load-it-from-the-sa...
+
+3/3
+
+
+8/16/23, 8:13 PM Changing/translating the labels : Fancy Product Designer
+
+Changing/translating the labels
+Modified on Thu, 27 Jul 2023 at 12:38 PM
+
+Since V3 its very easy to change/translate all labels used in the product designer. All labels(texts) are stored in a separate
+JSON file, which is located in the lang folder of the example. Just open default.json and start editing all labels. Do not
+change the keys!
+[) example > (css
+© source > [fonts
+» ReadMe 1 htm!
+15 images
+Bis
+Tale]
+5 php
+
+© index.html
+
+ 
+
+@ default.json
+
+wayreyreyreyre
+
+v
+
+If you want to change the location of the JSON or the filename, you have to enter the correct file URL for the plugin. You
+can easily change the URL via the langJSON option in the plugin options. This option receives the URL as string or a JSON
+object containing all content from the language JSON file (default.json).
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000006506-changing-translating-the-labels
+
+a.
+
+
+8/16/23, 8:12 PM Send proudct image to a mail address : Fancy Product Designer
+
+Send proudct image to a mail address
+Modified on Mon, 19 Dec 2022 at 03:42 PM
+
+You find a PHP script in the source folder, which will send an image to a custom mail address. In the PHP
+
+file you set also the sender mail address, recipient mail address, subject and mail text.
+
+1 //send data url to php script when clicking on a custom element
+
+2 $('#save-image-php').click(function() {
+
+3 thsirtDesigner.getProductDataURL(function(dataURL) {
+
+4
+
+5 $.post("php/send_image_via_mail.php", { base64_image:
+thsirtDesigner.getProductDataURL() }, function(data) {
+
+6 if(data) {
+
+7 console.log("Mail successfully sent!");
+
+8 }
+
+9 else {
+
+10 console.log("Mail could not be sent!");
+
+41 }
+
+12 4);
+
+13
+
+14 4);
+
+15
+
+16 (});
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000022058-send-proudct-image-to-a-mail-address
+
+a.
+
+
+8/16/23, 8:12 PM Placing a FPD module into an own HTML element : Fancy Product Designer
+
+Placing a FPD module into an own HTML element
+Modified on Thu, 27 Jul 2023 at 12:44 PM
+
+As our plugin is modular-built, you can easily put all FPD modules into a custom HTML element. That allows to use the
+modules outside of the product designer mainbar.
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+1 var fancyProductDesigner = document.getElementById('fpd-target').instance; Javascript
+2
+3  fancyProductDesigner
+4  .addEventListener('ready', function() { //wait until the ui is loaded
+5
+6 new FPDProductsModule(fancyProductDesigner, document .getElementById( 'custom-
+7  module-wrap'));
+8
+})
+data-module JS Class
+products FPDProductsModule
+images FPDImagesModule
+text FPDTextModule
+designs FPDDesignsModule
+manage-layers FPDLayersModule
+names-numbers FPDNamesNumbersModule
+layouts FPDLayoutsModule
+text-layers FPDTextLayersModule
+
+ 
+
+ 
+
+ 
+
+ 
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000066982-placing-a-fpd-module-into-an-own-html-element a1
+
+
+8/16/23, 8:11 PM Checkout with getProduct() : Fancy Product Designer
+
+Checkout with getProduct()
+Modified on Mon, 19 Dec 2022 at 03:42 PM
+
+Would you like to use the plugin with a shopping-system, then you have to use the getProduct () method.
+
+B
+
+$('#checkout -button').click(function(){
+//store the views of a product with all elements of a single view
+var productViews = thsirtDesigner.getProduct();
+//loop through all views
+for(var i=0; i < productViews.length; ++i) {
+//output all single view objects
+console. log(productViews[i] ) ;
+
+oA NON B WN
+
+});
+
+With help of the jQuery.ajax method, you can easily send the result to a php script that will store the result in a database
+for example.
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000022056-checkout-with-getproduct- a1
+
+
+8/16/23, 8:12 PM Remove an element : Fancy Product Designer
+
+Remove an element
+Modified on Thu, 27 Jul 2023 at 12:41 PM
+
+If you want to remove an element, e.g. before generating the product image, you can use the API of FPD first and then you
+can use the fabricjs API.
+
+Using getElementByTitle method to return the fabricjs object:
+
+1 var fabricElement =
+
+2  thsirtDesigner.currentViewInstance.fabricCanvas.getElementByTitle('title-of-an-
+element');
+console. log(fabricElement ) ;
+
+Now through the fabricElement variable you can use any method for that fabricjs object, e.g. the remove method.
+//wait until product is created
+
+fpd.addEventListener('productCreate', function(){
+thsirtDesigner.currentViewInstance. fabricCanvas.remove(fabricElement )
+
+//e.g. now you are able to generate an image without a specific element layer
+thsirtDesigner .getProductDataURL( )
+
+});
+
+NOOO BPWNE
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000022059-remove-an-element a1
+
+
+8/16/23, 8:12 PM Saving the product image with PHP : Fancy Product Designer
+
+Saving the product image with PHP
+Modified on Mon, 19 Dec 2022 at 03:42 PM
+
+You find a PHP script in the source folder, which will save an image on your webserver. You only need to
+
+send the data url of your product to this script, which will create an image from it.
+
+1 //send data url to php script when clicking on a custom element
+2 $('#save-image-php').click(function() {
+3 thsirtDesigner.getProductDataURL(function(dataURL) {
+4
+5 $.post("php/save_image.php", { base64_image: dataURL}, function(data)
+6 f{
+7 if(data) {
+8 //window.open(data, '_blank');
+9 }
+10 else {
+11 //do what you want here, e.g. alert('Image Generation
+12 failed!');
+13 }
+14 4);
+15
+16 3);
+3);
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000022057-saving-the-product-image-with-php
+
+a.
+
+
+8/16/23, 8:10 PM
+
+Setting up the modules : Fancy Product Designer
+
+Setting up the modules
+Modified on Thu, 27 Jul 2023 at 12:37 PM
+
+You can easily add the modules you need to the product designer. The modules can be set via the plugin options.
+
+1 //will display in the order how you define the values in the array JavaScript
+2 var opts = {mainBarModules: ['products', 'designs', 'images', 'text']};
+3 var fpd = new FancyProductDesigner (document .getElementById('fpd-target'),
+
+opts);
+
+Available Modules
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Key Explanation
+products The products module shows all products categorized in a list view.
+designs The designs module displays the designs you set in the product designer in a list view.
+images The images module allows to add custom images. It includes a multiple image uploader, Facebook and
+8 Instagram photos.
+text Via the text module the user can add custom text elements.
+manage- . .
+List all editable layers.
+layers
+layouts List all layouts that you have created.
+names: Customers can enter multiple names or numbers.
+numbers
+text-layers Manage style and content of text layers only.
+save-load Customers can save and load his designs.
+
+ 
+
+ 
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000006287-setting-up-the-modules
+
+a.
+
+
+8/16/23, 8:10 PM
+
+Layouts
+Modified on Thu, 27 Jul 2023 at 12:38 PM
+
+Layouts : Fancy Product Designer
+
+The Layouts module is similar to the Products module, but instead of changing the whole product (all views), it allows to
+change a single view inside of the displaying product. You can set up your layouts inside the plugin options with the
+
+layouts option. The layouts option receives an array containing objects representing a view.
+
+Example of layouts option:
+
+OANODOOKBWN EK
+
+QBRESRQ PER SR KRRNUNRMPPPRNNRERRBRERREER
+GOaovWdaAA ONRFSEECHAVNAGCKRANKRSGOBVNFTUHRWONFO
+
+40
+
+layouts:
+
+{
+
+[
+
+title: 'My View Layout',
+
+thumbnail:
+
+elements: [
+
+"type": "image",
+
+"source": "images/large_v.jpg",
+"title": "Large Image",
+"parameters": {
+
+3
+},
+{
+
+"price": 50.05,
+
+"left": 150,
+
+"top": 300,
+
+"scalex": 0.1,
+
+"scaley": 0.1,
+"autoCenter": false,
+"ZChangeable": true,
+"removable": false,
+"draggable": true,
+"rotatable": true,
+"resizable": true,
+"copyable": true,
+"autoSelect": false,
+"uniScalingUnlockable": true,
+"flipx": false,
+"originx": "left",
+"originy": "top",
+"advancedEditing": true,
+"colors": "#000"
+
+"type": "text",
+
+"source": "Last\nName",
+
+"title": "Enter your last name",
+
+"parameters": {
+"ZzChangeable": true,
+"removable": true,
+"draggable": true,
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000069008-layouts
+
+'images/layout_thumbnail.jpg',
+
+JavaScript
+
+1/3
+8/16/23, 8:10 PM
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+
+ 
+
+3]
+t,
+
+Layouts : Fancy Product Designer
+"rotatable": true,
+"resizable": true,
+"colors": "#ffffff",
+"fontSize": 30,
+"minFontSize": 5,
+"maxFontSize": 100,
+"patternable": true,
+"fontStyle": "normal",
+"fontWeight": "bold",
+"lineHeight": 1.5,
+"letterSpacing": 1,
+"textAlign": "left",
+"fill": "#990000",
+"editable": true,
+
+"left": 200,
+"fontFamily": "Lobster",
+"top": 500,
+
+"maxLines": 1,
+"textPlaceholder": true
+
+title: 'My Second Layout',
+thumbnail: 'images/layout_thumbnail.jpg',
+elements: [
+
+"type": "image",
+"source": "images/large_v.jpg",
+"title": "Whie Text",
+"parameters": {
+"left": 150,
+"top": 300,
+"scalex": 0.1,
+"scaley": 0.1,
+"autoCenter": false,
+"ZChangeable": true,
+"removable": false,
+"draggable": true,
+"rotatable": true,
+"resizable": true,
+"copyable": true,
+"autoSelect": false,
+"uniScalingUnlockable": true,
+"flipx": false,
+"originx": "left",
+"originy": "top",
+"advancedEditing": true,
+"colors": "#000"
+
+}
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000069008-layouts
+
+ 
+
+2/3
+8/16/23, 8:10 PM
+
+91
+
+92
+
+93
+
+94
+
+95
+
+96
+
+97
+
+98
+
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+114
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+
+Layouts : Fancy Product Designer
+
+3]
+
+title: 'My Third Layout',
+thumbnail: 'images/large_v.jpg',
+elements: [
+
+"type": "image",
+"source": "images/large_v.jpg",
+"title": "Whie Text",
+"parameters": {
+"left": 150,
+"top": 300,
+"scalex": 0.1,
+"scaley": 0.1,
+"autoCenter": false,
+"ZChangeable": true,
+"removable": false,
+"draggable": true,
+"rotatable": true,
+"resizable": true,
+"copyable": true,
+"autoSelect": false,
+"uniScalingUnlockable": true,
+"flipx": false,
+"originx": "left",
+"originy": "top",
+"advancedEditing": true,
+"colors": "#000"
+
+3]
+
+https://support.fancyproductdesigner.com/support/solutions/articles/13000069008-layouts
+
+3/3
+
