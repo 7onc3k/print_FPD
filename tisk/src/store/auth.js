@@ -36,8 +36,9 @@ const actions = {
         const { data, error } = await supabase.auth.getSession();
         if (data) {
             console.log("Session nalezena:", data);
-            commit('SET_USER', data.user);
+            commit('SET_USER', data.session.user);
             commit('SET_SESSION', data.session);
+            console.log(state.user, state.session)
         } else {
             console.log("Žádná session nenalezena.");
             commit('SET_USER', null);

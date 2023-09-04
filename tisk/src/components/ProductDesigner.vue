@@ -98,10 +98,17 @@ export default {
     new FancyProductDesigner(this.$el, appOptions);
   },
 };
-
-fpd.getOrder(); //https://jsdoc.fancyproductdesigner.com/FancyProductDesigner#getOrder
-
+/*
+var fpdInstance = jQuery('fpd-target').data('instance');
 //access current view instance
-fpd.currentViewInstance.toDataURL() // export the current selected view as data URI
+var productData = fpdInstance.getProduct();
 
+productData.views.forEach(function(view) {
+  view.elements.forEach(function(element) {
+    console.log('Element type:', element.type);
+    console.log('Element source:', element.source);
+    console.log('Element parameters:', element.parameters);
+  });
+});// export the current selected view as data URI
+*/
 </script>
