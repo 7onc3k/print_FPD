@@ -1,32 +1,18 @@
 <template>
-  <div
-    id="fpd-target"
-    class="fpd-sidebar fpd-shadow-2 fpd-views-inside-right"
-  ></div>
+  <div id="fpd-target" class="fpd-sidebar fpd-shadow-2 fpd-views-inside-right"></div>
 </template>
 
 <script>
-import { supabase } from "../supabaseClient"; // Import your Supabase client
+// Import your Supabase client
 
 export default {
   name: "ProductDesigner",
+  data() {
+    return {
+      fpd: null,
+    };
+  },
   mounted() {
-    // Save design function
-    async function saveDesign(fpd, userId, designData) {
-      const json = fpd.getProduct();
-      const { data, error } = await supabase.from("user_designs").insert([
-        {
-          user_id: userId,
-          design_data: json,
-        },
-      ]);
-
-      if (error) {
-        console.error("Error saving design:", error);
-      } else {
-        console.log("Design saved successfully:", data);
-      }
-    }
 
     // Initialize Fancy Product Designer
     const appOptions = {
@@ -114,13 +100,17 @@ export default {
         colors: true,
       },
     };
-    const fpd = new FancyProductDesigner(this.$el, appOptions);
+    this.fpd = new FancyProductDesigner(this.$el, appOptions);
 
-    // Listen to the 'save' event and call the saveDesign function
-    fpd.addEventListener("module:save-load:save", () => {
-      // Call the saveDesign function with the FancyProductDesigner instance, user ID, and design JSON data
-      saveDesign(fpd, "your_user_id");
-    });
+  },
+  // ProductDesigner.vue
+  methods: {
+    getProductData() {
+      return this.fpd.getProduct();
+    },
+    loadDesign(designId) {
+      
+    }
   },
 };
 </script>
