@@ -21,7 +21,7 @@ const actions = {
             password
         });
         if (data) {
-            commit('SET_USER', data.user);
+            commit('SET_USER', data.session.user);
             commit('SET_SESSION', data.session);
         }
         return { data, error };
@@ -34,7 +34,7 @@ const actions = {
     async fetchUser({ commit }) {
         console.log("Kontrola session...");
         const { data, error } = await supabase.auth.getSession();
-        if (data) {
+        if (data && data.session) {
             console.log("Session nalezena:", data);
             commit('SET_USER', data.session.user);
             commit('SET_SESSION', data.session);
@@ -57,7 +57,7 @@ const actions = {
         });
         if (data) {
             // Pokud je potřeba ověření e-mailu, zde by byla session null.
-            commit('SET_USER', data.user);
+            commit('SET_USER', data.session.user);
             commit('SET_SESSION', data.session);
         }
         return { data, error };

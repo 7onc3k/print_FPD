@@ -6,13 +6,32 @@
 </template>
 
 <script>
+import { supabase } from "../supabaseClient"; // Import your Supabase client
+
 export default {
   name: "ProductDesigner",
   mounted() {
-    // Zde inicializujeme Fancy Product Designer
+    // Save design function
+    async function saveDesign(fpd, userId, designData) {
+      const json = fpd.getProduct();
+      const { data, error } = await supabase.from("user_designs").insert([
+        {
+          user_id: userId,
+          design_data: json,
+        },
+      ]);
+
+      if (error) {
+        console.error("Error saving design:", error);
+      } else {
+        console.log("Design saved successfully:", data);
+      }
+    }
+
+    // Initialize Fancy Product Designer
     const appOptions = {
-      productsJSON: './data/products/product-categories.json',
-      designsJSON: './data/designs/design-categories.json',
+      productsJSON: "./data/products/product-categories.json",
+      designsJSON: "./data/designs/design-categories.json",
       layouts: "./data/layouts/data.json",
       langJSON: "./data/langs/default.json",
       initialActiveModule: "products",
@@ -94,21 +113,14 @@ export default {
         removable: true,
         colors: true,
       },
-    }; // Vaše konfigurace
-    new FancyProductDesigner(this.$el, appOptions);
+    };
+    const fpd = new FancyProductDesigner(this.$el, appOptions);
+
+    // Listen to the 'save' event and call the saveDesign function
+    fpd.addEventListener("module:save-load:save", () => {
+      // Call the saveDesign function with the FancyProductDesigner instance, user ID, and design JSON data
+      saveDesign(fpd, "your_user_id");
+    });
   },
 };
-/*
-var fpdInstance = jQuery('fpd-target').data('instance');
-//access current view instance
-var productData = fpdInstance.getProduct();
-
-productData.views.forEach(function(view) {
-  view.elements.forEach(function(element) {
-    console.log('Element type:', element.type);
-    console.log('Element source:', element.source);
-    console.log('Element parameters:', element.parameters);
-  });
-});// export the current selected view as data URI
-*/
 </script>
