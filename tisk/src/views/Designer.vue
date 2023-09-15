@@ -1,5 +1,3 @@
-<!-- Designer.vue -->
-<!-- Designer.vue -->
 <template>
   <div>
     <!-- Pokud není uživatel přihlášen -->
@@ -14,6 +12,12 @@
     <div v-else>
       <FancyDesigner ref="fancyDesigner" />
       <button @click="saveProduct">Uložit</button>
+      <button @click="fetchDesigns">Load Designs</button>
+      <div v-for="design in designs" :key="design.id">
+        <img :src="design.preview" alt="Design preview" />
+        <p>ID: {{ design.id }}</p>
+        <button @click="$refs.fancyDesigner.loadDesign(design.design_data)">Load Design</button>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +29,11 @@ import { mapState } from 'vuex';
 export default {
   components: {
     FancyDesigner,
+  },
+  data() {
+    return {
+      designs: [],
+    };
   },
   computed: {
     ...mapState('auth', ['user', 'session']),
@@ -55,11 +64,18 @@ export default {
         console.log("Product stored, but ID not available");
       }
     },
+    async fetchDesigns() {
+      const { data, error } = await supabase
+        .from("user_designs")
+        .select("*")
+        .eq("user_id", this.user.id);
+
+      if (error) {
+        console.error("Error fetching designs:", error);
+      } else {
+        this.designs = data;
+      }
+    },
   },
 };
 </script>
-
-
-
-
-

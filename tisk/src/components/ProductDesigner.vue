@@ -108,9 +108,9 @@ export default {
     getProductData() {
       return this.fpd.getProduct();
     },
-    loadDesign(designId) {
-      
-    }
+    loadDesign(designData) {
+  this.fpd.loadProduct(designData);
+}
   },
 };
 </script>
