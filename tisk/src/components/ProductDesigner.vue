@@ -1,5 +1,8 @@
 <template>
-  <div id="fpd-target" class="fpd-sidebar fpd-shadow-2 fpd-views-inside-right"></div>
+  <div
+    id="fpd-target"
+    class="fpd-sidebar fpd-shadow-2 fpd-views-inside-right"
+  ></div>
 </template>
 
 <script>
@@ -13,7 +16,6 @@ export default {
     };
   },
   mounted() {
-
     // Initialize Fancy Product Designer
     const appOptions = {
       productsJSON: "./data/products/product-categories.json",
@@ -101,7 +103,6 @@ export default {
       },
     };
     this.fpd = new FancyProductDesigner(this.$el, appOptions);
-
   },
   // ProductDesigner.vue
   methods: {
@@ -109,8 +110,12 @@ export default {
       return this.fpd.getProduct();
     },
     loadDesign(designData) {
-  this.fpd.loadProduct(designData);
-}
+      this.fpd.loadProduct(designData);
+    },
+    getCanvas() {
+      const currentViewInstance = this.fpd.viewInstances[0];
+      return currentViewInstance.canvas;
+    },
   },
 };
 </script>

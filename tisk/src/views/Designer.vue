@@ -12,11 +12,14 @@
     <div v-else>
       <FancyDesigner ref="fancyDesigner" />
       <button @click="saveProduct">Uložit</button>
+      <button @click="downloadDesign">Stáhnout design</button>
       <button @click="fetchDesigns">Load Designs</button>
       <div v-for="design in designs" :key="design.id">
-        <img :src="design.preview" alt="Design preview" />
+        <img :src="design.thumbnail" alt="Design preview" />
         <p>ID: {{ design.id }}</p>
-        <button @click="$refs.fancyDesigner.loadDesign(design.design_data)">Load Design</button>
+        <button @click="$refs.fancyDesigner.loadDesign(design.design_data)">
+          Load Design
+        </button>
       </div>
     </div>
   </div>
@@ -25,7 +28,7 @@
 <script>
 import FancyDesigner from "../components/ProductDesigner.vue";
 import { supabase } from "../supabaseClient";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   components: {
     FancyDesigner,
@@ -36,10 +39,10 @@ export default {
     };
   },
   computed: {
-    ...mapState('auth', ['user', 'session']),
+    ...mapState("auth", ["user", "session"]),
     isLoggedIn() {
       return !!this.user;
-    }
+    },
   },
   methods: {
     async saveProduct() {
@@ -53,7 +56,9 @@ export default {
 
       const { data, error } = await supabase
         .from("user_designs")
-        .insert([{ user_id: this.user.id, design_data: productData }], { returning: 'representation' });
+        .insert([{ user_id: this.user.id, design_data: productData }], {
+          returning: "representation",
+        });
       console.log("Supabase response data:", data);
       if (error) {
         console.error("Error:", error);
@@ -76,6 +81,22 @@ export default {
         this.designs = data;
       }
     },
+    downloadDesign() {
+    const canvas = this.$refs.fancyDesigner.getCanvas();
+    canvas.toDataURL({
+      format: 'png',
+      quality: 1,
+      multiplier: 2, // Zvětšete obrázek pro lepší kvalitu tisku
+      callback: function (imageDataURL) {
+        const link = document.createElement('a');
+        link.href = imageDataURL;
+        link.download = 'design.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+    });
+  },
   },
 };
 </script>
