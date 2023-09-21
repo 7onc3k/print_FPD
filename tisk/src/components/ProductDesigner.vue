@@ -113,8 +113,7 @@ export default {
       this.fpd.loadProduct(designData);
     },
     getCanvas() {
-      const currentViewInstance = this.fpd.viewInstances[0];
-      return currentViewInstance.canvas;
+      return this.fpd.getProductDataURL()
     },
   },
 };

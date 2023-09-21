@@ -82,21 +82,9 @@ export default {
       }
     },
     downloadDesign() {
-    const canvas = this.$refs.fancyDesigner.getCanvas();
-    canvas.toDataURL({
-      format: 'png',
-      quality: 1,
-      multiplier: 2, // Zvětšete obrázek pro lepší kvalitu tisku
-      callback: function (imageDataURL) {
-        const link = document.createElement('a');
-        link.href = imageDataURL;
-        link.download = 'design.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      },
-    });
-  },
+      const productData = this.$refs.fancyDesigner.getCanvas();
+      console.log("Product data:", productData);
+    },
   },
 };
 </script>
