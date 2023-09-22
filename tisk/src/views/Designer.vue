@@ -82,8 +82,20 @@ export default {
       }
     },
     downloadDesign() {
-      const productData = this.$refs.fancyDesigner.getCanvas();
-      console.log("Product data:", productData);
+      const canvasData = this.$refs.fancyDesigner.getCanvas((dataURL) => {
+        if (!dataURL) {
+          console.error("Canvas data is undefined!");
+          return;
+        }
+
+        // Vytvořte odkaz pro stažení obrázku
+        const downloadLink = document.createElement("a");
+        downloadLink.href = dataURL;
+        downloadLink.download = "design.png";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      });
     },
   },
 };

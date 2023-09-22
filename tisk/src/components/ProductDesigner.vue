@@ -112,8 +112,17 @@ export default {
     loadDesign(designData) {
       this.fpd.loadProduct(designData);
     },
-    getCanvas() {
-      return this.fpd.getProductDataURL()
+    getCanvas(callback) {
+      if (!this.fpd) {
+        console.error("FancyProductDesigner object is not initialized!");
+        return;
+      }
+      // Použijte název "printingBox" pro ohraničující prvek
+      const boundingBoxElementTitle = "printingBox";
+      this.fpd.getProductDataURL(
+        { boundingBox: boundingBoxElementTitle },
+        callback
+      );
     },
   },
 };
